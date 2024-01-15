@@ -5,15 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Illuminate\Database\Eloquent\Model;
 use MongoDB\Laravel\Eloquent\Model;
-
-class Kelas extends Model
+class Siswa extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kelas'];
+    protected $collection = 'siswa';
+    protected $fillable = ['nama','kelas_id'];
     public $timestamps = false;
-
-    public function siswa(){
-        return $this->hasMany(Siswa::class);
-    }
 }

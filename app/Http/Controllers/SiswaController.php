@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 
-class KelasController extends Controller
+class SiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $kelas = Kelas::all();
+        $siswa = Siswa::all();
         return response()->json([
-            'data' => $kelas
+            'data' => $siswa
         ]);
     }
 
@@ -34,47 +33,40 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         try {
-            $kelas = Kelas::create([
-                'kelas' => $request->kelas
+            $siswa = Siswa::create([
+                'nama' => $request->nama,
+                'kelas_id' => $request->kelas_id
             ]);
         }catch (Exception $e) {
             return response()->json([
                 'code' => '400',
-                'message' => 'Data kelas gagal disimpan',
+                'message' => 'Data siswa gagal disimpan',
                 'error' => $e->getMessage()
             ]);
         }
 
         return response()->json([
             'code' => '200',
-            'message' => 'Data kelas berhasil disimpan',
-            'data' => $kelas
+            'message' => 'Data siswa berhasil disimpan',
+            'data' => $siswa
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Kelas $kelas, $id)
+    public function show(Siswa $siswa, $id)
     {
-        $kelas = Kelas::where('_id', $id)->get();
-        $siswa = Siswa::where('kelas_id', $id)->get();
-        foreach ($kelas as $k){
-            $response = [
-                'id' => $k->_id,
-                'kelas' => $k->kelas,
-                'siswa' => $siswa
-            ];
-        }
+        $siswa = Siswa::where('_id', $id)->get();
         return response()->json([
-            'data' => $response
+            'data' => $siswa
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kelas $kelas)
+    public function edit(Siswa $siswa)
     {
         //
     }
@@ -82,49 +74,50 @@ class KelasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kelas $kelas, $id)
+    public function update(Request $request, Siswa $siswa, $id)
     {
-        $kelas = Kelas::find($id);
+        $siswa = Siswa::find($id);
 
         try {
-            $kelas->kelas = $request->kelas;
-            $kelas->save();
+            $siswa->nama = $request->nama;
+            $siswa->kelas_id = $request->kelas_id;
+            $siswa->save();
         }catch (Exception $e) {
             return response()->json([
                 'code' => '400',
-                'message' => 'Data kelas gagal diubah',
+                'message' => 'Data siswa gagal diubah',
                 'error' => $e->getMessage()
             ]);
         }
 
         return response()->json([
             'code' => '200',
-            'message' => 'Data kelas berhasil diubah',
-            'data' => $kelas
+            'message' => 'Data siswa berhasil diubah',
+            'data' => $siswa
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kelas $kelas, $id)
+    public function destroy(Siswa $siswa, $id)
     {
-        $kelas = Kelas::find($id);
+        $siswa = Siswa::find($id);
 
         try {
-            $kelas->delete();
+            $siswa->delete();
         }catch (Exception $e) {
             return response()->json([
                 'code' => '400',
-                'message' => 'Data kelas gagal dihapus',
+                'message' => 'Data siswa gagal dihapus',
                 'error' => $e->getMessage()
             ]);
         }
 
         return response()->json([
             'code' => '200',
-            'message' => 'Data kelas berhasil dihapus',
-            'data' => $kelas
+            'message' => 'Data siswa berhasil dihapus',
+            'data' => $siswa
         ]);
     }
 }
