@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Nilai;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 
@@ -58,8 +59,34 @@ class SiswaController extends Controller
     public function show(Siswa $siswa, $id)
     {
         $siswa = Siswa::where('_id', $id)->get();
+        $nilai2 = [];
+        $nilai = Nilai::where('siswa_id', $id)->get();
+        foreach ($siswa as $s) {
+            foreach ($nilai as $n) {
+                $nama    = $n->pelajaran->mapel;
+                $latihan = 0.15 * (($n->lat1+$n->lat2+$n->lat3+$n->lat4) / 4);
+                $harian  = 0.2 * (($n->uh1+$n->uh2) / 2);
+                $uts     = 0.25 * $n->uts;
+                $uas     = 0.4 * $n->us;
+                $hasil   = $latihan+$harian+$uts+$uas;
+
+                $nilai1  = [
+                    'pelajaran_id' => $n->id,
+                    'mapel' => $nama,
+                    'nilai_total' => $hasil
+                ];
+
+                array_push($nilai2, $nilai1);
+            }
+            $response = [
+                'id' => $s->_id,
+                'nama' => $s->nama,
+                'kelas_id' => $s->kelas_id,
+                'nilai' => $nilai2
+            ];
+        }
         return response()->json([
-            'data' => $siswa
+            'data' => $response
         ]);
     }
 

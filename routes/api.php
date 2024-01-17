@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\KelasController;
-use App\Http\Controllers\SiswaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\PelajaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +36,18 @@ Route::controller(SiswaController::class)->group(function(){
     Route::post('siswa/store', 'store');
     Route::post('siswa/update/{id}', 'update');
     Route::post('siswa/delete/{id}', 'destroy');
+});
+
+Route::controller(NilaiController::class)->group(function(){
+    Route::get('nilai/show/{id}', 'show');
+    Route::post('nilai/store', 'store');
+    Route::post('nilai/update/{id}', 'update');
+    Route::post('nilai/delete/{id}', 'destroy');
+});
+
+Route::controller(PelajaranController::class)->group(function(){
+    Route::get('pelajaran', 'index');
+    Route::post('pelajaran/store', 'store');
+    Route::post('pelajaran/update/{id}', 'update');
+    Route::post('pelajaran/delete/{id}', 'destroy');
 });
